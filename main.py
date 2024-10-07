@@ -2,9 +2,9 @@ import nltk
 from sentence_transformers import SentenceTransformer
 from nltk import pos_tag, word_tokenize
 
-# Download NLTK resources
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
+# # Download NLTK resources
+# nltk.download('punkt')
+# nltk.download('averaged_perceptron_tagger')
 
 
 def is_first_person(sentence):
@@ -55,7 +55,24 @@ def analyze_sentence(sentence):
     return first_person and actionable
 
 
+def analyze_sentences(sentences):
+    """
+    Analyze a list of sentences and return a list indicating whether each is in first person.
+    """
+    results = []
+    for sentence in sentences:
+        result = analyze_sentence(sentence)
+        results.append(result)
+    return results
+
+
 # Example usage
-sentence = "I'm willing to change course if presented with compelling arguments."
-result = analyze_sentence(sentence)
+sentences = [
+    "Be punctual for meetings and respect agreed-upon deadlines.",
+    "Provide space for reflection if you notice I'm processing a difficult situation.",
+    "I prefer group discussions over private conversations for most work matters.",
+    "Engage in brief social chat at the start of meetings to build rapport.",
+    "I'm willing to change course if presented with compelling arguments."
+]
+result = analyze_sentences(sentences)
 print(result)
