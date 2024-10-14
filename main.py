@@ -11,29 +11,27 @@ def is_first_person(sentence):
     """
     Check if the sentence is written in the first person.
     """
-    tokens = word_tokenize(sentence)
-    tagged = pos_tag(tokens)
-
-    # Define pronouns
-    first_person_pronouns = {'I', 'me', 'my', 'mine', 'we', 'us', 'our', 'ours'}
-    second_person_pronouns = {'you', 'your', 'yours'}
-    third_person_pronouns = {'he', 'him', 'his', 'she', 'her', 'hers', 'it', 'they', 'them', 'their', 'theirs'}
-
-    # Flags to track pronouns
-    found_first_person = False
-    found_second_person = False
-    found_third_person = False
-
-    for word, tag in tagged:
-        if word in first_person_pronouns:
-            found_first_person = True
-        elif word in second_person_pronouns:
-            found_second_person = True
-        elif word in third_person_pronouns:
-            found_third_person = True
-            
-    return found_first_person and not (found_second_person or found_third_person)
-
+    # Tokenize the sentence into words
+    words = word_tokenize(sentence)
+    
+    # Tag each word with a part of speech (POS)
+    pos_tags = pos_tag(words)
+    
+    # List of first-person subject pronouns (lowercase)
+    first_person_pronouns = ['i', 'we']
+    
+    # Check if the first word is a verb (imperative sentences usually start with a verb)
+    if pos_tags[0][1].startswith('VB'):
+        return False  # Consider it an imperative sentence, hence not first person
+    
+    # Iterate through the POS tags to find first-person pronouns followed by verbs
+    for i, (word, tag) in enumerate(pos_tags):
+        if word.lower() in first_person_pronouns:
+            # Check if the next sibling (next word) is a verb (tag starts with 'VB')
+            if i + 1 < len(pos_tags) and pos_tags[i + 1][1].startswith('VB'):
+                return True
+    
+    return False
 
 def is_actionable(sentence):
     """
