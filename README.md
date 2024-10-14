@@ -64,3 +64,7 @@ python main.py
 
 
 _Note: Code lines 6 and 7 are required for the first run. If you've run the project at least one time already, they are no longer required. That's why I commentted it._
+
+
+## Contributing 🤝
+Test with your sentences and feel free to open a new issue on the repository.
